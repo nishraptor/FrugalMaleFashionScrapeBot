@@ -3,9 +3,9 @@ Web scraper that monitors /r/frugalmalefashion based on your preferences to stay
 
 Uses Praw and tkinter to filter /r/frugalmalefashion and to email you on deals YOU want as soon as they are posted.
 
-TODO:
+TODO~
 
-GUI
+GUI:
   -Add remove button
   -List contents of the filter.txt file
   -Add Pause/Play Buttons
