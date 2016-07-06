@@ -1,26 +1,31 @@
 import praw
 from tkinter import *
 import errno
+from tkinter import messagebox
 
+# global variable that keeps track of list of keywords
 matches = []
 
+# Function to refresh the filter.txt file and add to the global variable matches[] any new filter keywords
 def refreshFile():
     global matches
     matches = []
 
     try:
-         with open("filter.txt") as f:
-             for line in f:
-                 matches.append(line)
-             f.close()
+        with open("filter.txt") as f:
+            for line in f:
+                matches.append(line)
+            f.close()
     except IOError:
-         f = open("filter.txt", "w+")
-         f.close()
+        f = open("filter.txt", "w+")
+        f.close()
 
-refreshFile()
-print("")
-print(matches)
-print("")
+    matches = [item.rstrip() for item in matches]
+    if len(matches) !=0:
+        matches.remove('')
+
+
+# End refreshFile()
 
 # matches = ["jcrew", "desert boots", "j crew", "j.crew", "clarks", "old navy", "uniqlo"]
 
@@ -39,39 +44,67 @@ for x in submission:
 for x in l:
     print(x)
 
+# Goal: Have the above code in a function. A button in the gui runs the function to check (every x minutes) for a match
 
-#Goal: Have the above code in a function. A button in the gui runs the function to check (every x minutes) for a match
 
-
-###############################################S T A R T G U I#########################################################
+############################################### S T A R T G U I #######################################################
 
 top = Tk()
-
 
 E1 = Entry(top, bd=5)
 
 E1.pack(side=BOTTOM)
 
 
-def callback():
-    with open("filter.txt","a") as f:
-        f.write("\n")
-        f.write(E1.get())
+def OK():
+    if(E1.get() != ''):
 
-    E1.delete(0, END)
-    refreshFile()
+        with open("filter.txt", "a") as f:
+            f.write("\n" + E1.get() + '\n')
+
+        E1.delete(0, END)
+        refreshFile()
+
+    else:
+        pass
 
     print("")
     print(matches)
     print("")
 
-OK = Button(top, text="Add text to \n Filter", command=callback)
+def Remove():
+    global matches
+    if(E1.get() != '' and len(matches)!=0):
 
+        f = open("filter.txt", 'w')
+        for x in matches:
+            if(x != E1.get()):
+                f.write(x + '\n')
+        E1.delete(0,END)
+        f.close()
+        refreshFile()
 
-OK.pack(side =LEFT)
+    else:
+        pass
 
+    print("")
+    print(matches)
+    print("")
 
+def Clear():
+    global matches
+    f = open("filter.txt",'w').close()
+    refreshFile()
+    print("")
+    print(matches)
+    print("")
+
+Add = Button(top, text="Add Keyword to \n Filter", command=OK)
+Delete = Button(top, text = "Remove Keyword from \n Filter", command=Remove)
+Clr = Button(top, text = "Remove all keywords",command = Clear)
+Add.pack(side=LEFT)
+Delete.pack(side = LEFT)
+Clr.pack(side = LEFT)
 top.mainloop()
 
-################################################## E N D G U I#########################################################
-
+################################################## E N D G U I #########################################################
