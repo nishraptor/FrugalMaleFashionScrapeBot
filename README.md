@@ -12,9 +12,12 @@ Functionality:
   - Generate history regarding deals such that the same deals are not sent multiple times. 
 
 GUI:
+
 ~~- Add remove button~~
+
 ~~- List contents of the filter.txt file~~
   - Add Pause/UnPause Buttons
+  
 ~~- Add Remove All Preferences Button(removes all values in filter.text)~~
   - Add Button to set time delay(for email)
   - Add help/more info features(README) in button form or something better
