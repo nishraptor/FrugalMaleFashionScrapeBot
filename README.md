@@ -19,4 +19,4 @@ GUI:
   - Add Button to set time delay(for email)
   - Add help/more info features(README) in button form or something better
 
-
+Any commits appreciated!
