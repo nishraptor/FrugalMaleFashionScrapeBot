@@ -1,7 +1,8 @@
 import praw
 from tkinter import *
-import errno
 from tkinter import messagebox
+import errno
+import threading
 
 # global variable that keeps track of list of keywords
 matches = []
@@ -33,21 +34,21 @@ def refreshFile():
 # End refreshFile()
 
 # matches = ["jcrew", "desert boots", "j crew", "j.crew", "clarks", "old navy", "uniqlo"]
+def checkForMatches():
+    global matches
+    r = praw.Reddit(user_agent='Test Script by /u/nishraptor')
+    submission = r.get_subreddit("frugalmalefashion").get_top_from_day(limit=10)
 
-r = praw.Reddit(user_agent='Test Script by /u/nishraptor')
-submission = r.get_subreddit("frugalmalefashion").get_top_from_day(limit=10)
+    submission = list(submission)
 
-submission = list(submission)
-for sub in submission:
-    print(sub.permalink)
+    for sub in submission:
+        for x in matches:
+            if any(x in str(sub).lower() for x in matches):
+                print(sub.permalink)
 
-l = []
-# appends submission data in lowercase to a list
-for x in submission:
-    l.append(str(x).lower())
+    threading.Timer(10, checkForMatches).start()
 
-for x in l:
-    print(x)
+
 
 # Goal: Have the above code in a function. A button in the gui runs the function to check (every x minutes) for a match
 
@@ -88,6 +89,7 @@ def OK():
     print(matches)
     print("")
 
+
 def Remove():
     global matches
     if(E1.get() != '' and len(matches)!=0):
@@ -126,14 +128,19 @@ print(matches)
 print("df")
 
 
+
 refreshListbox()
 
 Add = Button(top, text="Add Keyword to \n Filter", command=OK)
 Delete = Button(top, text = "Remove Keyword from \n Filter", command=Remove)
 Clr = Button(top, text = "Remove all keywords",command = Clear)
+Start = Button(top, text = "Start Bot", command  = checkForMatches)
+
 Add.pack(side=LEFT)
 Delete.pack(side = LEFT)
 Clr.pack(side = LEFT)
+Start.pack(side = LEFT)
 top.mainloop()
+
 
 ################################################## E N D G U I #########################################################
