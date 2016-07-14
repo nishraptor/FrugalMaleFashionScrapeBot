@@ -60,6 +60,7 @@ def checkForMatches():
     if sent:
         print("Message sent successfully!")
 
+
     if Run:
         threading.Timer(10, checkForMatches).start()
     else:
