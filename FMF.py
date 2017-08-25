@@ -78,7 +78,7 @@ def startThread():
 # Goal: Have the above code in a function. A button in the gui runs the function to check (every x minutes) for a match
 
 
-############################################### S T A R T G U I #######################################################
+#Start Gui
 refreshFile()
 top = Tk()
 Lb1 = Listbox(top)
@@ -153,7 +153,7 @@ print(matches)
 print("df")
 
 
-
+#Refresh the GUI
 refreshListbox()
 
 Add = Button(top, text="Add Keyword to \n Filter", command=OK)
